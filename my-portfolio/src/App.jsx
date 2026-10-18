@@ -1,5 +1,17 @@
 
 import { useEffect, useRef, useState } from "react";
+import {
+  SiCss,
+  SiFigma,
+  SiGit,
+  SiGithub,
+  SiHtml5,
+  SiJavascript,
+  SiNodedotjs,
+  SiPerplexity,
+  SiReact,
+} from "react-icons/si";
+import { VscVscode } from "react-icons/vsc";
 import "./index.css";
 
 function ScrollProgress() {
@@ -57,6 +69,37 @@ function MovingTypography() {
                 {word}
                 <span className="moving-type-star"> ✳ </span>
               </span>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function TechMarquee() {
+  const technologies = [
+    SiHtml5,
+    SiCss,
+    SiJavascript,
+    SiReact,
+    SiGit,
+    SiGithub,
+    SiPerplexity,
+    VscVscode,
+    SiFigma,
+    SiNodedotjs,
+  ];
+
+  return (
+    <div className="tech-marquee" role="img" aria-label="Technology logos">
+      <div className="tech-marquee-track" aria-hidden="true">
+        {[1, 2].map((copy) => (
+          <div className="tech-marquee-group" key={copy}>
+            {technologies.map((Icon, index) => (
+              <div className="tech-marquee-item" key={index}>
+                <Icon className="tech-marquee-icon" aria-hidden="true" />
+              </div>
             ))}
           </div>
         ))}
@@ -198,6 +241,7 @@ function App() {
       </section>
       </section>
 
+      <TechMarquee />
       
       
 
@@ -430,10 +474,10 @@ function App() {
         </div>
 
         <div className="project-buttons">
-          <a href="https://aptiprep-1zyu.onrender.com" target="_blank" rel="noreferrer">
+          <a href="https://portfolio-gules-chi-69.vercel.app/" target="_blank" rel="noopener noreferrer">
             LIVE DEMO ↗
           </a>
-          <a href="https://github.com/matharasi2127/aptiprep.git" target="_blank" rel="noreferrer">
+          <a href="https://github.com/matharasi2127/portfolio.git" target="_blank" rel="noopener noreferrer">
             GITHUB ↗
           </a>
         </div>

@@ -1725,6 +1725,7 @@ body {
   width: 100%;
   margin: 0;
   padding: 20px 0;
+  transform: translateY(-100px);
   font-family: "Space Grotesk", sans-serif;
   font-size: clamp(56px, 16vw, 235px);
   font-weight: 900;
@@ -1787,6 +1788,7 @@ body {
     font-size: 15vw;
     letter-spacing: 0;
     gap: 0;
+    transform: translateY(-65px);
   }
 
   .hero-letter {

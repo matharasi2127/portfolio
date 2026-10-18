@@ -61,7 +61,7 @@ body {
 
 .hero {
   position: relative;
-  min-height: 500px;
+  min-height: 0px;
   height: calc(100vh - 70px);
   max-height: 550px;
   display: flex;
@@ -74,7 +74,7 @@ body {
 .portfolio-title {
   position: absolute;
   z-index: -1;
-  top: 5%;
+  top: 10%;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;

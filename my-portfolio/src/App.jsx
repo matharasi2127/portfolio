@@ -111,6 +111,100 @@ function TechMarquee() {
 function App() {
   const aboutRef = useRef(null);
   const [aboutVisible, setAboutVisible] = useState(false);
+  const [titleAnimation, setTitleAnimation] = useState({
+    phase: "initial",
+    step: 0,
+    changedIndex: -1,
+  });
+  const [activeSkillCategory, setActiveSkillCategory] = useState(null);
+  const skillCategories = [
+    { label: "Programming Skills", skills: ["Java", "C", "C++"] },
+    {
+      label: "Web Technologies",
+      skills: ["HTML5", "CSS3", "JavaScript", "Responsive Design"],
+    },
+    { label: "Frameworks", skills: ["React.js"] },
+    { label: "Database", skills: ["MySQL", "SQL"] },
+    { label: "Tools", skills: ["Git", "GitHub", "VS Code"] },
+    {
+      label: "Artificial Intelligence",
+      skills: [
+        "Generative AI",
+        "Prompt Engineering",
+        "AI Tools",
+        "AI-assisted Development",
+      ],
+    },
+  ];
+
+  const portfolioTitle = "PORTFOLIO";
+  const nameTitle = "MATHARASI";
+  const titleLetters = Array.from(portfolioTitle, (letter, index) => {
+    if (titleAnimation.phase === "to-name") {
+      return index < titleAnimation.step ? nameTitle[index] : letter;
+    }
+
+    if (titleAnimation.phase === "to-portfolio") {
+      return index < titleAnimation.step ? letter : nameTitle[index];
+    }
+
+    return letter;
+  });
+
+  useEffect(() => {
+    const motionPreference = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    );
+
+    if (motionPreference.matches) {
+      return;
+    }
+
+    let timeoutId;
+    let step = 0;
+    let phase = "to-name";
+
+    const revealNextLetter = () => {
+      step += 1;
+      setTitleAnimation({ phase, step, changedIndex: step - 1 });
+
+      if (step < portfolioTitle.length) {
+        timeoutId = window.setTimeout(revealNextLetter, 220);
+      } else if (phase === "to-name") {
+        phase = "to-portfolio";
+        step = 0;
+        timeoutId = window.setTimeout(revealNextLetter, 950);
+      } else {
+        setTitleAnimation({
+          phase: "complete",
+          step: portfolioTitle.length,
+          changedIndex: -1,
+        });
+      }
+    };
+
+    const handleMotionPreferenceChange = (event) => {
+      if (event.matches) {
+        window.clearTimeout(timeoutId);
+        setTitleAnimation({
+          phase: "complete",
+          step: portfolioTitle.length,
+          changedIndex: -1,
+        });
+      }
+    };
+
+    motionPreference.addEventListener("change", handleMotionPreferenceChange);
+    timeoutId = window.setTimeout(revealNextLetter, 650);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      motionPreference.removeEventListener(
+        "change",
+        handleMotionPreferenceChange
+      );
+    };
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -213,10 +307,12 @@ function App() {
 
       <section className="hero">
         <h1 className="hero-portfolio-title" aria-label="PORTFOLIO">
-          {"PORTFOLIO".split("").map((letter, index) => (
+          {titleLetters.map((letter, index) => (
             <span
-              key={index}
-              className="hero-letter"
+              key={`${letter}-${index}`}
+              className={`hero-letter ${
+                titleAnimation.changedIndex === index ? "is-revealing" : ""
+              }`}
               style={{ "--letter-index": index }}
               aria-hidden="true"
             >
@@ -311,67 +407,32 @@ function App() {
     </p>
   </div>
 
-  <div className="skills-grid">
-
-    {/* 01 - Programming Skills */}
-    <div className="skill-card">
-      <span className="skill-number">01 / PROGRAMMING</span>
-      <h3>Programming Skills</h3>
-      <div className="skill-tags">
-        <span>C</span>
-        <span>C++</span>
-        <span>Java</span>
-        <span>JavaScript</span>
+  <div className="skills-list">
+    {skillCategories.map(({ label, skills }, index) => (
+      <div className="skill-category" key={label}>
+        <button
+          type="button"
+          className={`skill-category-button ${
+            activeSkillCategory === index ? "is-active" : ""
+          }`}
+          aria-pressed={activeSkillCategory === index}
+          onClick={() =>
+            setActiveSkillCategory(
+              activeSkillCategory === index ? null : index
+            )
+          }
+        >
+          <span className="skill-category-label">{label}</span>
+          <span className="skill-category-skills">
+            {skills.map((skill) => (
+              <span className="skill-name" key={skill}>
+                {skill}
+              </span>
+            ))}
+          </span>
+        </button>
       </div>
-    </div>
-
-    {/* 02 - Web Development */}
-    <div className="skill-card">
-      <span className="skill-number">02 / DEVELOPMENT</span>
-      <h3>Web Development</h3>
-      <div className="skill-tags">
-        <span>HTML5</span>
-        <span>CSS3</span>
-        <span>JavaScript</span>
-        <span>React</span>
-        <span>Responsive Design</span>
-      </div>
-    </div>
-
-    {/* 03 - Tools */}
-    <div className="skill-card">
-      <span className="skill-number">03 / WORKFLOW</span>
-      <h3>Tools</h3>
-      <div className="skill-tags">
-        <span>VS Code</span>
-        <span>Git</span>
-        <span>GitHub</span>
-       
-      </div>
-    </div>
-
-    {/* 04 - Database */}
-    <div className="skill-card">
-      <span className="skill-number">04 / DATA</span>
-      <h3>Database</h3>
-      <div className="skill-tags">
-        <span>SQL</span>
-        
-      </div>
-    </div>
-
-    {/* 05 - AI */}
-    <div className="skill-card">
-      <span className="skill-number">05 / INTELLIGENCE</span>
-      <h3>Artificial Intelligence</h3>
-      <div className="skill-tags">
-        <span>Generative AI</span>
-        <span>Prompt Engineering</span>
-        <span>AI Tools</span>
-        <span>AI-assisted Development</span>
-      </div>
-    </div>
-
+    ))}
   </div>
 </section>
 

@@ -336,8 +336,8 @@ body {
   line-height: 1;
   font-weight: 700;
   letter-spacing: -0.07em;
-  color: transparent;
-  -webkit-text-stroke: 1.5px #b7ff38;
+  color: #b7ff38;
+  -webkit-text-stroke: 0;
   transition:
     color 0.4s ease,
     letter-spacing 0.4s ease,
@@ -345,13 +345,15 @@ body {
 }
 
 .about-big-title span {
-  color: #b7ff38;
+  color: #b7ff38; 
   -webkit-text-stroke: 0;
 }
 
 .about-big-title:hover {
   letter-spacing: -0.035em;
-  text-shadow: 0 0 35px rgba(183, 255, 56, 0.12);
+  text-shadow:
+    1px 1px 2px rgba(0, 0, 0, 0.45),
+    0 0 35px rgba(183, 255, 56, 0.12);
 }
 
 .about-caption {
@@ -1768,12 +1770,22 @@ body {
   padding: 0;
   letter-spacing: 0;
   color: transparent;
-  -webkit-text-stroke: 1.5px #b7ff38;
+  background: linear-gradient(
+    145deg,
+    #b7ff38 0%,
+    #b7ff38 68%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0;
   opacity: 1;
+  text-shadow:
+    1px 2px 2px rgba(0, 0, 0, 0.4),
+    -1px -1px 1px rgba(0, 0, 0, 0.18);
   transition:
-    color 0.3s ease,
-    text-shadow 0.3s ease,
-    -webkit-text-stroke-color 0.3s ease;
+    text-shadow 0.3s ease;
 }
 
 .hero-letter.is-revealing {
@@ -1781,9 +1793,11 @@ body {
 }
 
 .hero-letter:hover {
-  color: #b7ff38;
-  -webkit-text-stroke-color: #b7ff38;
-  text-shadow: 0 0 15px #b7ff38, 0 0 40px #b7ff3866;
+  text-shadow:
+    0 0 15px #b7ff38,
+    0 0 40px #b7ff3866,
+    1px 2px 2px rgba(0, 0, 0, 0.4),
+    -1px -1px 1px rgba(0, 0, 0, 0.18);
 }
 
 @keyframes title-letter-fade-in {
@@ -1811,9 +1825,6 @@ body {
     transform: translateY(-65px);
   }
 
-  .hero-letter {
-    -webkit-text-stroke-width: 1px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2193,6 +2204,40 @@ body {
   to {
     transform: translateX(-50%);
   }
+}
+
+:where(
+  .contact-button:not(:hover),
+  .hello-text,
+  .job-title,
+  .contact-section a:not(:hover),
+  .about-kicker,
+  .about-big-title,
+  .about-big-title span,
+  .portrait-number,
+  .about-eyebrow,
+  .about-info h3 span,
+  .about-link:not(:hover),
+  .skills-kicker,
+  .skills-heading h2 span,
+  .skill-category-button:not(:hover):not(.is-active) .skill-category-label,
+  .projects-kicker,
+  .projects-heading h2 span,
+  .project-top,
+  .visual-label,
+  .visual-symbol,
+  .project-tags span,
+  .project-buttons a:not(:hover):not(.live-btn),
+  .aptiprep-preview span,
+  .project-content h3,
+  .cinematic-kicker,
+  .moving-type-word
+) {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.tech-marquee-icon {
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.45));
 }
 
 @media (max-width: 600px) {
